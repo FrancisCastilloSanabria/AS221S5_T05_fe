@@ -17,6 +17,14 @@ export class ApiServiceService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  getTraduccionesActivas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/activos`);
+  }
+
+  getTraduccionesInactivas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/inactivos`);
+  }
+
   traducirPalabra(palabra: string): Observable<any> {
     const headers = new HttpHeaders()
       .set('Ocp-Apim-Subscription-Key', this.translationApiKey)
@@ -34,7 +42,19 @@ export class ApiServiceService {
     return this.http.post<any>(this.apiUrl, body);
   }
 
-  eliminarTraduccion(id: number): Observable<any> {
+  actualizarTraduccion(traduccion: any): Observable<any> {
+    return this.http.put<any>(this.apiUrl, traduccion);
+  }
+
+  eliminarTraduccionLogica(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminar/${id}`);
+  }
+
+  activarTraduccion(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/activar/${id}`, {});
+  }
+
+  eliminarTraduccionFisica(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
-  }  
+  }
 }
